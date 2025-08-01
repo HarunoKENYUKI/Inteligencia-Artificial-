@@ -25,7 +25,7 @@
         }
 
         h1 {
-            font-size: 4rem;
+            font-size: 3rem;
             color: #1e90ff;
             margin-bottom: 20px;
             text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
@@ -45,6 +45,7 @@
             margin-top: 30px;
             border-radius: 8px;
             transition: border-color 0.3s ease, background-color 0.3s ease;
+            text-align: left;
         }
 
         .response-box:hover {
@@ -83,13 +84,44 @@
         .show-text {
             opacity: 1;
         }
+
+        .response-options {
+            margin-top: 20px;
+        }
+
+        .response-options label {
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .response-options input[type="radio"] {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>Reflexão sobre a Inteligência Artificial</h1>
     <div class="content">
         <p class="animation-text">A inteligência artificial é um campo da ciência que busca criar máquinas capazes de imitar a inteligência humana. Desde suas primeiras concepções, ela tem se mostrado uma ferramenta poderosa e transformadora, capaz de resolver problemas complexos e realizar tarefas que antes eram impensáveis para uma máquina.</p>
-        <textarea class="response-box" id="userResponse" placeholder="Compartilhe sua visão sobre a IA..." rows="4"></textarea>
+        
+        <!-- Caixa de Respostas com opções de rádio -->
+        <div class="response-box response-options">
+            <p>Qual área você acha que a IA pode mais contribuir? Selecione uma opção:</p>
+            <label>
+                <input type="radio" name="ai-contribution" value="saúde"> Saúde
+            </label>
+            <label>
+                <input type="radio" name="ai-contribution" value="educação"> Educação
+            </label>
+            <label>
+                <input type="radio" name="ai-contribution" value="meio-ambiente"> Meio Ambiente
+            </label>
+            <label>
+                <input type="radio" name="ai-contribution" value="indústria"> Indústria
+            </label>
+        </div>
+
         <button class="next-button" onclick="nextStep()">Próxima parte da história</button>
     </div>
 
@@ -101,24 +133,24 @@
 
         // Função para adicionar um novo trecho de história
         function nextStep() {
-            const response = document.getElementById('userResponse').value;
-            if (response.trim() === "") {
-                alert("Por favor, compartilhe sua reflexão sobre a IA antes de continuar.");
+            const selectedOption = document.querySelector('input[name="ai-contribution"]:checked');
+            
+            if (!selectedOption) {
+                alert("Por favor, escolha uma opção antes de continuar.");
                 return;
             }
 
+            const userChoice = selectedOption.value;
             const newText = document.createElement('p');
             newText.classList.add('animation-text');
-            newText.innerText = `Você escreveu: ${response}\nAgora imagine um futuro em que a IA tem o poder de resolver problemas globais, como a mudança climática e a desigualdade social. Como você acha que isso seria possível?`;
+            newText.innerText = `Você escolheu: ${userChoice}. Agora, imagine um futuro em que a IA tem o poder de resolver problemas globais, como a mudança climática e a desigualdade social. Como você acha que isso seria possível?`;
+
             document.querySelector('.content').appendChild(newText);
 
             // Animação do novo texto
             setTimeout(() => {
                 newText.classList.add('show-text');
             }, 500);
-            
-            // Limpar a caixa de resposta
-            document.getElementById('userResponse').value = '';
         }
     </script>
 </body>
